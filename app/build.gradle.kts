@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    //serialization into/from api
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -13,7 +15,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -66,4 +67,19 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //supabase
+    implementation(platform("io.github.jan-tennert.supabase:bom:2.6.1"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt")
+    implementation("io.github.jan-tennert.supabase:realtime-kt")
+    implementation("io.github.jan-tennert.supabase:storage-kt")
+    //ktor for support websockets
+    implementation ("io.ktor:ktor-client-android:2.3.12")
+    implementation ("io.ktor:ktor-client-core:2.3.12")
+    implementation ("io.ktor:ktor-utils:2.3.12")
+    //implementation "io.ktor:ktor-client-core:$ktor_version"
+    //implementation "io.ktor:ktor-utils:$ktor_version"
+
+
 }
