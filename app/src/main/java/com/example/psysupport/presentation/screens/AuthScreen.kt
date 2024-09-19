@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,14 +22,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.psysupport.presentation.screens.viewmodels.AuthViewModel
+import io.github.jan.supabase.gotrue.user.UserInfo
 
 @Composable
-fun AuthScreen(navController: NavController) {
+fun AuthScreen(navController: NavController, currentUser: MutableState<UserInfo?>) {
     //соханяет состояния vm
     val vm: AuthViewModel = viewModel()
     val email = remember { mutableStateOf("")}
     val password = remember { mutableStateOf("")}
-    val currentUser by vm.curUser
+    currentUser.value = vm.curUser.value
+    //val currentUser by vm.curUser
     Column(
         modifier = Modifier
             .height(320.dp)
@@ -61,10 +64,10 @@ fun AuthScreen(navController: NavController) {
             .height(50.dp)) {
             Text("Регистрация")
         }
-        if (currentUser != null) {
+        if (currentUser.value != null) {
             // побочный эффект, выполнится при изменении currentUser
-            LaunchedEffect(currentUser) {
-                Log.d("Auth", "User go to HomeScreen: ${currentUser!!.id}")
+            LaunchedEffect(currentUser.value) {
+                Log.d("Auth", "User go to HomeScreen: ${currentUser.value!!.id}")
                 navController.navigate("home_screen")
             }
         }
