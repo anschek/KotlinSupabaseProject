@@ -1,5 +1,6 @@
-package com.example.psysupport.mainActivity.components
+package com.example.psysupport.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,23 +10,28 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.psysupport.mainActivity.MainViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.psysupport.presentation.screens.viewmodels.AuthViewModel
 
 @Composable
-@Preview
-fun auth() {
-    val vm = MainViewModel()
+fun AuthScreen(navController: NavController) {
+    //соханяет состояния vm
+    val vm: AuthViewModel = viewModel()
     val email = remember { mutableStateOf("")}
     val password = remember { mutableStateOf("")}
+    val currentUser by vm.curUser
     Column(
-        modifier = Modifier.height(320.dp)
+        modifier = Modifier
+            .height(320.dp)
             .padding(vertical = 40.dp, horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
@@ -43,16 +49,24 @@ fun auth() {
         )
         Button(onClick = {
             vm.onSignInWithEmailPassword(email.value, password.value)
-        },  modifier = Modifier.fillMaxWidth()
+        },  modifier = Modifier
+            .fillMaxWidth()
             .height(50.dp)) {
             Text("Вход")
         }
         Button(onClick = {
             vm.onSignUpWithEmailPassword(email.value, password.value)
-        },  modifier = Modifier.fillMaxWidth()
+        },  modifier = Modifier
+            .fillMaxWidth()
             .height(50.dp)) {
             Text("Регистрация")
         }
-
+        if (currentUser != null) {
+            // побочный эффект, выполнится при изменении currentUser
+            LaunchedEffect(currentUser) {
+                Log.d("Auth", "User go to HomeScreen: ${currentUser!!.id}")
+                navController.navigate("home_screen")
+            }
+        }
     }
 }

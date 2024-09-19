@@ -81,5 +81,6 @@ dependencies {
     //implementation "io.ktor:ktor-client-core:$ktor_version"
     //implementation "io.ktor:ktor-utils:$ktor_version"
 
-
+    //navigation
+    implementation("androidx.navigation:navigation-compose:2.8.1")
 }

@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import com.example.psysupport.mainActivity.components.auth
+import com.example.psysupport.presentation.navigation.Navigation
+import com.example.psysupport.presentation.screens.AuthScreen
 import com.example.psysupport.ui.theme.PsySupportTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
                    modifier = Modifier.fillMaxSize(),
                    verticalArrangement = Arrangement.Center
                ) {
-                   auth()
+                   Navigation()
                }
             }
         }
