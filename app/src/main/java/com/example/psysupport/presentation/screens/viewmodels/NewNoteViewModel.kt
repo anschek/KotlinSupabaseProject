@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.psysupport.domain.Constants
 import com.example.psysupport.model.Emotion
 import com.example.psysupport.model.MoodType
+import com.example.psysupport.model.User
 import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
@@ -18,9 +19,9 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-class NewNoteViewModel(
-    val curUser: MutableState<UserInfo?>
-): ViewModel() {
+class NewNoteViewModel(): ViewModel() {
+    val curUser = mutableStateOf<UserInfo?>(null)
+
     private val _moodTypes = mutableStateOf(listOf<MoodType>())
     val moodTypes: State<List<MoodType>> = _moodTypes//State действует только на чтение
 
@@ -29,6 +30,7 @@ class NewNoteViewModel(
 
     private val _selectedMoodType = mutableStateOf<MoodType?>(null)
     val selectedMoodType: State<MoodType?> = _selectedMoodType
+    //val selectedMoodType = mutableStateOf<MoodType?>(null)
 
     val defaultDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     val selectedDate = mutableStateOf(LocalDate)
