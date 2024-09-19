@@ -30,10 +30,10 @@ class NewNoteViewModel(): ViewModel() {
 
     private val _selectedMoodType = mutableStateOf<MoodType?>(null)
     val selectedMoodType: State<MoodType?> = _selectedMoodType
-    //val selectedMoodType = mutableStateOf<MoodType?>(null)
 
-    val defaultDate: LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    val selectedDate = mutableStateOf(LocalDate)
+    val selectedEmotion = mutableStateOf<Emotion?>(null)
+
+    var selectedDate = mutableStateOf("")
 
     private val _filteredEmotions = mutableStateOf(listOf<Emotion>())
     val filteredEmotions: State<List<Emotion>> = _filteredEmotions
@@ -44,6 +44,8 @@ class NewNoteViewModel(): ViewModel() {
             _moodTypes.value = Constants.supabaseClient.from("MoodTypes")
                 .select().decodeList<MoodType>()
             _emotions.value = Constants.supabaseClient.from("Emotions")
+                .select().decodeList<Emotion>()
+            _filteredEmotions.value = Constants.supabaseClient.from("Emotions")
                 .select().decodeList<Emotion>()
         }
     }
