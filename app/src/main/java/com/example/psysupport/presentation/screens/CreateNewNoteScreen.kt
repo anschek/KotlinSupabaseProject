@@ -3,6 +3,8 @@ package com.example.psysupport.presentation.screens
 import android.app.DatePickerDialog
 import android.widget.DatePicker
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -35,27 +37,26 @@ import java.util.Calendar
 fun CreateNewNoteScreen(navController: NavController, currentUser: MutableState<UserInfo?>) {
     val vm: NewNoteViewModel = viewModel()
     vm.curUser.value = currentUser.value
-
     val selectedMoodType = remember { mutableStateOf<MoodType?>(null) }
+
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+            vm.selectedDate.value = "$year-${ if(month<9) "0${month+1}" else month+1}-${if(dayOfMonth<10) "0$dayOfMonth" else dayOfMonth}"
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+    )
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(vertical = 40.dp, horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-
-        val context = LocalContext.current
-        val calendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(
-            context,
-            { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-                vm.selectedDate.value = "$dayOfMonth/${month + 1}/$year"
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
-        )
+        Text(text = "Выбранная дата: ${vm.selectedDate.value}")
         Button(onClick = { datePickerDialog.show()}) {
             Text("Выбрать дату")
         }
-        Text(text = "Выбранная дата: ${vm.selectedDate.value}")
-
 
         Text("Тип основной эмоции дня")
         ComboBox(
@@ -76,10 +77,16 @@ fun CreateNewNoteScreen(navController: NavController, currentUser: MutableState<
         )
         Text("Выбранная основная эмоция ${vm.selectedEmotion.value}")
 
-
         Text("Заметка")
-        Text("Общая оценка дня")
-        Button(onClick = { /*TODO*/ }) {
+        TextField(
+            value = vm.typedNote.value,
+            onValueChange = {newNote -> vm.typedNote.value = newNote},
+            //минимальная высота, но т.к. maxLines не указан, максимум - любой
+            modifier = Modifier.heightIn(min=150.dp)
+        )
+        //TODO добавить общую оценку как картинку
+        //Text("Общая оценка дня")
+        Button(onClick = { vm.createNewNote() }) {
             Text("Сохранить")
         }
     }

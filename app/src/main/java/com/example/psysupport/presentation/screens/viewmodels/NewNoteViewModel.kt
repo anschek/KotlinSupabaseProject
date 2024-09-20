@@ -1,5 +1,6 @@
 package com.example.psysupport.presentation.screens.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -8,6 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.psysupport.domain.Constants
+import com.example.psysupport.model.DailyMood
+import com.example.psysupport.model.DayAssessment
 import com.example.psysupport.model.Emotion
 import com.example.psysupport.model.MoodType
 import com.example.psysupport.model.User
@@ -30,10 +33,6 @@ class NewNoteViewModel(): ViewModel() {
 
     private val _selectedMoodType = mutableStateOf<MoodType?>(null)
     val selectedMoodType: State<MoodType?> = _selectedMoodType
-
-    val selectedEmotion = mutableStateOf<Emotion?>(null)
-
-    var selectedDate = mutableStateOf("")
 
     private val _filteredEmotions = mutableStateOf(listOf<Emotion>())
     val filteredEmotions: State<List<Emotion>> = _filteredEmotions
@@ -60,6 +59,30 @@ class NewNoteViewModel(): ViewModel() {
             emotion.moodTypeId == moodTypeId }
     }
 
-    //onCreateNewNote
-    //user_id+note_date+emotion_id+note_daily_assessment
+    val selectedEmotion = mutableStateOf<Emotion?>(null)
+    var selectedDate = mutableStateOf("")
+    val typedNote = mutableStateOf("")
+    val selectedAssessment = mutableStateOf<DayAssessment?>(null)
+
+    fun createNewNote(){
+        viewModelScope.launch {
+           Log.d("CreateNote", "Id ${2} userId ${curUser.value?.id ?: "no user"} noteDate ${selectedDate.value} " +
+                    "emotionId ${selectedEmotion.value?.id ?: "no emotion"} note ${typedNote.value} assessment ${selectedAssessment.value?.id ?: "no assessment"}")
+            try{
+                val newNote = DailyMood(
+                    id = 2,
+                    userId = curUser.value!!.id,
+                    noteDate = selectedDate.value,
+                    emotionId = selectedEmotion.value!!.id,
+                    note = typedNote.value,
+                    dailyAssessmentId = selectedAssessment.value?.id
+                )
+                val res = Constants.supabaseClient.from("DailyMoods").insert(newNote)
+                Log.d("CreateNote", "Sucess")
+            }catch(e: Exception){
+                Log.e("CreateNote", "Error")
+                Log.e("CreateNote", e.message.toString())
+            }
+        }
+    }
 }
