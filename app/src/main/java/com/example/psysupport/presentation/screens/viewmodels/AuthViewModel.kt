@@ -17,9 +17,8 @@ class AuthViewModel():ViewModel() {
     private val _curUser = mutableStateOf<User?>(null)
     val curUser: State<User?> = _curUser
     //авторизация
-    fun onSignInWithEmailPassword(userEmail: String, userPassword: String){
-        //запуск асинхрона в жц вм
-        viewModelScope.launch {
+    suspend fun onSignInWithEmailPassword(userEmail: String, userPassword: String): Boolean{
+        var success = true
             try{//Обращение к объекту констнат и авторизация с помощью почты
                 val user = Constants.supabaseClient.auth.signInWith(Email){
                     email = userEmail
@@ -38,12 +37,14 @@ class AuthViewModel():ViewModel() {
             }catch(e: Exception){
                 //вывод логов ошибки e-error
                 Log.e("Auth", e.message.toString())
+                success = false
             }
-        }
+        Log.d("Message", success.toString())
+        return success
     }
     //регистрация (идентична авторизации)
-    fun onSignUpWithEmailPassword(userEmail: String, userPassword: String){
-        viewModelScope.launch {
+    suspend fun onSignUpWithEmailPassword(userEmail: String, userPassword: String): Boolean{
+        var success = true
             try{
                 val user = Constants.supabaseClient.auth.signInWith(Email){
                     email = userEmail
@@ -61,8 +62,9 @@ class AuthViewModel():ViewModel() {
                 Log.d("Auth", "User Id: ${_curUser.value!!.id}")
             }catch(e: Exception){
                 Log.e("Auth", e.message.toString())
+                success = false
             }
-        }
+        return success
     }
 
 }
