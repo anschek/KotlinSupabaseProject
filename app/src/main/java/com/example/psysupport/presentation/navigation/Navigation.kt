@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.psysupport.model.User
+import com.example.psysupport.presentation.screens.ArticlesListScreen
 import com.example.psysupport.presentation.screens.AuthScreen
 import com.example.psysupport.presentation.screens.CreateNewNoteScreen
 import com.example.psysupport.presentation.screens.HomeScreen
@@ -28,6 +29,9 @@ fun Navigation() {
         }
         composable("create_new_note"){
             CreateNewNoteScreen(navController, currentUser)
+        }
+        composable("show_articles_list"){
+            ArticlesListScreen(navController)
         }
     }
 }

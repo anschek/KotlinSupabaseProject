@@ -43,5 +43,12 @@ fun HomeScreen(navController: NavController, currentUser: MutableState<User?>) {
                 .height(50.dp)) {
             Text("Заметка за день >")
         }
+        Button(
+            onClick = { navController.navigate("show_articles_list") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)) {
+            Text("Образовательный контент >")
+        }
     }
 }
