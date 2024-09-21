@@ -28,13 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.psysupport.model.MoodType
+import com.example.psysupport.model.User
 import com.example.psysupport.presentation.screens.viewmodels.NewNoteViewModel
 import io.github.jan.supabase.gotrue.user.UserInfo
 import java.util.Calendar
 
 @Composable
 //@Preview
-fun CreateNewNoteScreen(navController: NavController, currentUser: MutableState<UserInfo?>) {
+fun CreateNewNoteScreen(navController: NavController, currentUser: MutableState<User?>) {
     val vm: NewNoteViewModel = viewModel()
     vm.curUser.value = currentUser.value
     val selectedMoodType = remember { mutableStateOf<MoodType?>(null) }

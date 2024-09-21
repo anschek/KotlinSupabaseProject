@@ -23,7 +23,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 class NewNoteViewModel(): ViewModel() {
-    val curUser = mutableStateOf<UserInfo?>(null)
+    val curUser = mutableStateOf<User?>(null)
 
     private val _moodTypes = mutableStateOf(listOf<MoodType>())
     val moodTypes: State<List<MoodType>> = _moodTypes//State действует только на чтение

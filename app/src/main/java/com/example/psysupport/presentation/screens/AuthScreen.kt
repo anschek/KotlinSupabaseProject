@@ -21,11 +21,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.psysupport.model.User
 import com.example.psysupport.presentation.screens.viewmodels.AuthViewModel
 import io.github.jan.supabase.gotrue.user.UserInfo
 
 @Composable
-fun AuthScreen(navController: NavController, currentUser: MutableState<UserInfo?>) {
+fun AuthScreen(navController: NavController, currentUser: MutableState<User?>) {
     //соханяет состояния vm
     val vm: AuthViewModel = viewModel()
     val email = remember { mutableStateOf("")}

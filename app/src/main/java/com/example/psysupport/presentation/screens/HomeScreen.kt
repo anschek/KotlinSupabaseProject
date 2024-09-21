@@ -15,15 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.psysupport.model.User
 import io.github.jan.supabase.gotrue.user.UserInfo
 
 @Composable
-fun HomeScreen(navController: NavController, currentUser: MutableState<UserInfo?>) {
+fun HomeScreen(navController: NavController, currentUser: MutableState<User?>) {
     //TODO          план разделения ролей
-    //для пользователя: |заполнить настроение за день|
+    //для пользователя: |заполнить настроение за день|V
     //                  |      смотреть статьи       |
 
-    // для админа:      |заполнить настроение за день|
+    // для админа:      |заполнить настроение за день|V
     //                  |      смотреть статьи       |
     //                  |      добавить статью       |
 
@@ -34,6 +35,7 @@ fun HomeScreen(navController: NavController, currentUser: MutableState<UserInfo?
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text(currentUser.value!!.role)
         Button(
             onClick = { navController.navigate("create_new_note") },
             modifier = Modifier
