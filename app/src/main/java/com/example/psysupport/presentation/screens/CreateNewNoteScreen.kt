@@ -29,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.psysupport.model.MoodType
 import com.example.psysupport.model.User
+import com.example.psysupport.presentation.components.ComboBox
 import com.example.psysupport.presentation.screens.viewmodels.NewNoteViewModel
 import io.github.jan.supabase.gotrue.user.UserInfo
 import java.util.Calendar
@@ -89,44 +90,6 @@ fun CreateNewNoteScreen(navController: NavController, currentUser: MutableState<
         //Text("Общая оценка дня")
         Button(onClick = { vm.createNewNote() }) {
             Text("Сохранить")
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun <T> ComboBox(
-    items:List<T>,
-    selectedItem: T,
-    onItemSelected: (T) -> Unit,//выбор объекта
-    itemText: (T) -> String//по какому полю вывод
-){
-    var expanded by remember { mutableStateOf(false) }
-    // Контейнер для TextField и выпадающего меню
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded } // Изменяем состояние при нажатии
-    ) {
-        TextField(
-            // Выводим строку, связанную с выбранным элементом
-            value = itemText(selectedItem),//?.let(itemText)?: "",
-            onValueChange = {},
-            modifier = Modifier.menuAnchor(),//якорь меню
-            readOnly = true
-        )
-        // Выпадающее меню
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }//закрытие меню
-        ) {
-            items.forEach { item ->
-                DropdownMenuItem(
-                    onClick = {
-                    onItemSelected(item) // Устанавливаем выбранный элемент
-                    expanded = false // Закрываем меню
-                    }, text = {Text(itemText(item))}
-                )
-            }
         }
     }
 }
