@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.psysupport.model.User
 import com.example.psysupport.presentation.screens.ArticlesListScreen
 import com.example.psysupport.presentation.screens.AuthScreen
+import com.example.psysupport.presentation.screens.CreateNewArticleScreen
 import com.example.psysupport.presentation.screens.CreateNewNoteScreen
 import com.example.psysupport.presentation.screens.HomeScreen
 import io.github.jan.supabase.gotrue.user.UserInfo
@@ -32,6 +33,9 @@ fun Navigation() {
         }
         composable("show_articles_list"){
             ArticlesListScreen(navController)
+        }
+        composable("create_new_article") {
+            CreateNewArticleScreen(navController)
         }
     }
 }

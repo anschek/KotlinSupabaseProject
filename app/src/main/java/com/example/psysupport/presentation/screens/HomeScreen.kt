@@ -20,22 +20,16 @@ import io.github.jan.supabase.gotrue.user.UserInfo
 
 @Composable
 fun HomeScreen(navController: NavController, currentUser: MutableState<User?>) {
-    //TODO          план разделения ролей
-    //для пользователя: |заполнить настроение за день|V
-    //                  |      смотреть статьи       |
-
-    // для админа:      |заполнить настроение за день|V
-    //                  |      смотреть статьи       |
-    //                  |      добавить статью       |
-
-
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(currentUser.value!!.role)
+        Text("Имя: " + currentUser.value!!.firstname + " " + currentUser.value!!.secondname)
+        Text("Дата рождения: " + currentUser.value!!.birthDate)
+        Text("Роль в системе: " + currentUser.value!!.role)
+
         Button(
             onClick = { navController.navigate("create_new_note") },
             modifier = Modifier
@@ -49,6 +43,15 @@ fun HomeScreen(navController: NavController, currentUser: MutableState<User?>) {
                 .fillMaxWidth()
                 .height(50.dp)) {
             Text("Образовательный контент >")
+        }
+        if(currentUser.value!!.role=="admin"){
+            Button(
+                onClick = { navController.navigate("create_new_article") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)) {
+                Text("Добавить статью >")
+            }
         }
     }
 }
