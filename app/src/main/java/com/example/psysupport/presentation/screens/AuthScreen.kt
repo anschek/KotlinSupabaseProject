@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.psysupport.model.User
@@ -42,18 +43,19 @@ fun AuthScreen(navController: NavController, currentUser: MutableState<User?>) {
     val snackbarHostState = remember { SnackbarHostState() }
     SnackbarHost(
         hostState = snackbarHostState,
-        modifier = Modifier.padding(top=320.dp)
+        modifier = Modifier.padding(top=340.dp)
         )
     //использование запуска корутин для возможности возврата результатов из асинхронных функций vm
     val corountineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
-            .height(410.dp)
+            .height(430.dp)
             .padding(vertical = 80.dp, horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
+        Text("Авторизация", fontSize = 25.sp)
         TextField(value = email.value,
             onValueChange = {newText -> email.value=newText},
             modifier = Modifier.fillMaxWidth(),
@@ -89,7 +91,6 @@ fun AuthScreen(navController: NavController, currentUser: MutableState<User?>) {
             .height(50.dp)) {
             Text("Регистрация")
         }
-
         if (currentUser.value != null) {
             // побочный эффект, выполнится при изменении currentUser
             LaunchedEffect(currentUser.value) {

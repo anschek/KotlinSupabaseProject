@@ -25,30 +25,39 @@ import com.example.psysupport.presentation.screens.viewmodels.ArticlesListViewMo
 @Composable
 fun ArticlesListScreen(navController: NavController) {
     val vm: ArticlesListViewModel = viewModel()
-    LazyColumn(
-        modifier = Modifier.padding(vertical = 40.dp, horizontal = 20.dp),
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .padding(top=50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(vm.articlesList.value){article -> ShowArticle(article) }
-
+        Text("Статьи и советы", fontSize = 25.sp, modifier = Modifier.padding(top = 20.dp, bottom = 5.dp))
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(vm.articlesList.value){article -> ShowArticle(article) }
+        }
     }
 }
 
 @Composable
 fun ShowArticle(article: Article){
+    val perfectBlue = Color(0xFF076672)
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 10.dp)
-            .border(1.dp, color = Color.Blue, shape = RoundedCornerShape(10.dp))
+            .border(1.dp, color = perfectBlue, shape = RoundedCornerShape(10.dp))
     ){
-        Column {
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+        ) {
             Log.d("ArticlesLList", "Id: ${article.id} Автор: ${article.author} Дата: ${article.postingDate}")
-            //Text("Тема: ${}")
             Text("Автор: ${article.author}")
             Text("Дата: ${article.postingDate}")
 
-            Text(article.title, fontWeight = FontWeight.Bold, fontSize = 30.sp)
+            Text(article.title, fontWeight = FontWeight.Bold, fontSize = 22.sp, color = perfectBlue)
             Text(article.content, maxLines = 3)
         }
     }

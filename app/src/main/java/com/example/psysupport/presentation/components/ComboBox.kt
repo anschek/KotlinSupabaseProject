@@ -1,5 +1,6 @@
 package com.example.psysupport.presentation.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +32,9 @@ fun <T> ComboBox(
             // Выводим строку, связанную с выбранным элементом
             value = itemText(selectedItem),//?.let(itemText)?: "",
             onValueChange = {},
-            modifier = Modifier.menuAnchor(),//якорь меню
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(),//якорь меню
             readOnly = true
         )
         // Выпадающее меню

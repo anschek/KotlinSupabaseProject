@@ -2,8 +2,11 @@ package com.example.psysupport.presentation.screens
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -25,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.psysupport.model.MoodType
@@ -51,15 +55,18 @@ fun CreateNewNoteScreen(navController: NavController, currentUser: MutableState<
     )
     Column(
         modifier = Modifier
+            .fillMaxWidth()
             .fillMaxSize()
-            .padding(vertical = 40.dp, horizontal = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(horizontal = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ){
+        Text("Настроение за день", fontSize = 25.sp)
         Text(text = "Выбранная дата: ${vm.selectedDate.value}")
-        Button(onClick = { datePickerDialog.show()}) {
-            Text("Выбрать дату")
+        Button(onClick = { datePickerDialog.show()},
+            modifier = Modifier.fillMaxWidth().height(50.dp)) {
+            Text("Дата")
         }
-
         Text("Тип основной эмоции дня")
         ComboBox(
             items = vm.moodTypes.value,
@@ -68,8 +75,7 @@ fun CreateNewNoteScreen(navController: NavController, currentUser: MutableState<
                                selectedMoodType.value?.let { vm.selectMoodType(it) }},
             itemText = { moodType -> moodType?.moodName ?: "" } // Указываем поле для отображения
         )
-        Text("Выбранный тип эмоции ${selectedMoodType.value}")
-
+        //Text("Выбранный тип эмоции ${selectedMoodType.value}")
         Text("Основная эмоция дня")
         ComboBox(
             items = vm.filteredEmotions.value,
@@ -77,18 +83,19 @@ fun CreateNewNoteScreen(navController: NavController, currentUser: MutableState<
             onItemSelected = { selected -> vm.selectedEmotion.value = selected},
             itemText = { emotion -> emotion?.emotionName ?: "" } // Указываем поле для отображения
         )
-        Text("Выбранная основная эмоция ${vm.selectedEmotion.value}")
-
+        //Text("Выбранная основная эмоция ${vm.selectedEmotion.value}")
         Text("Заметка")
         TextField(
             value = vm.typedNote.value,
             onValueChange = {newNote -> vm.typedNote.value = newNote},
             //минимальная высота, но т.к. maxLines не указан, максимум - любой
-            modifier = Modifier.heightIn(min=150.dp)
+            modifier = Modifier.heightIn(min=150.dp).fillMaxWidth()
+                .padding(bottom = 15.dp)
         )
         //TODO добавить общую оценку как картинку
         //Text("Общая оценка дня")
-        Button(onClick = { vm.createNewNote() }) {
+        Button(onClick = { vm.createNewNote() },
+            modifier = Modifier.fillMaxWidth().height(50.dp)) {
             Text("Сохранить")
         }
     }
