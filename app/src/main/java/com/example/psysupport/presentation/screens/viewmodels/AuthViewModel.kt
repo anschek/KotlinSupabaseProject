@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 class AuthViewModel():ViewModel() {
     private val _curUser = mutableStateOf<User?>(null)
     val curUser: State<User?> = _curUser
+    private var success = true
     //авторизация
     suspend fun onSignInWithEmailPassword(userEmail: String, userPassword: String): Boolean{
-        var success = true
             try{//Обращение к объекту констнат и авторизация с помощью почты
                 val user = Constants.supabaseClient.auth.signInWith(Email){
                     email = userEmail
@@ -44,7 +44,6 @@ class AuthViewModel():ViewModel() {
     }
     //регистрация (идентична авторизации)
     suspend fun onSignUpWithEmailPassword(userEmail: String, userPassword: String): Boolean{
-        var success = true
             try{
                 val user = Constants.supabaseClient.auth.signInWith(Email){
                     email = userEmail

@@ -34,25 +34,18 @@ class NewArticleViewModel():ViewModel() {
 
     fun createNewArticle(){
         viewModelScope.launch {
-            val newId = Constants.supabaseClient.from("Articles")
-                .select(){
-                    order(column = "id", order = Order.DESCENDING)
-                    limit(1)
-                }.decodeSingle<Article>().id + 1
             val newArticle = Article(
-                id = newId,
                 typeId = selectedType.value!!.id,
                 author = author.value,
                 postingDate = selectedDate.value,
                 title = title.value,  content = content.value
             )
             try{
-
                 Constants.supabaseClient.from("Articles")
                     .insert(newArticle)
                 Log.d("CreateArticle", "Success")
             }catch (e: Exception){
-                Log.e("CreateArticle", "id ${newId}, typeId ${newArticle.typeId}, author ${newArticle.author}, " +
+                Log.e("CreateArticle", "id ${newArticle.id}, typeId ${newArticle.typeId}, author ${newArticle.author}, " +
                         "date ${newArticle.postingDate}," +
                         "title ${newArticle.title}, content ${newArticle.content}")
                 Log.e("CreateArticle", e.message.toString())

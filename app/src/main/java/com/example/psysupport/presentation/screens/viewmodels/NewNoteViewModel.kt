@@ -29,10 +29,8 @@ class NewNoteViewModel(): ViewModel() {
     val moodTypes: State<List<MoodType>> = _moodTypes//State действует только на чтение
 
     private val _emotions = mutableStateOf(listOf<Emotion>())
-    val emotions: State<List<Emotion>> = _emotions
 
     private val _selectedMoodType = mutableStateOf<MoodType?>(null)
-    val selectedMoodType: State<MoodType?> = _selectedMoodType
 
     private val _filteredEmotions = mutableStateOf(listOf<Emotion>())
     val filteredEmotions: State<List<Emotion>> = _filteredEmotions
@@ -55,7 +53,7 @@ class NewNoteViewModel(): ViewModel() {
     }
 
     private fun filterEmotionsByMoodType(moodTypeId: Int){
-        _filteredEmotions.value = emotions.value.filter { emotion ->
+        _filteredEmotions.value = _emotions.value.filter { emotion ->
             emotion.moodTypeId == moodTypeId }
     }
 
@@ -66,18 +64,17 @@ class NewNoteViewModel(): ViewModel() {
 
     fun createNewNote(){
         viewModelScope.launch {
-           Log.d("CreateNote", "Id ${2} userId ${curUser.value?.id ?: "no user"} noteDate ${selectedDate.value} " +
+            Log.d("CreateNote", "userId ${curUser.value?.id ?: "no user"} noteDate ${selectedDate.value} " +
                     "emotionId ${selectedEmotion.value?.id ?: "no emotion"} note ${typedNote.value} assessment ${selectedAssessment.value?.id ?: "no assessment"}")
             try{
                 val newNote = DailyMood(
-                    id = 2,
                     userId = curUser.value!!.id,
                     noteDate = selectedDate.value,
                     emotionId = selectedEmotion.value!!.id,
                     note = typedNote.value,
                     dailyAssessmentId = selectedAssessment.value?.id
                 )
-                val res = Constants.supabaseClient.from("DailyMoods").insert(newNote)
+                Constants.supabaseClient.from("DailyMoods").insert(newNote)
                 Log.d("CreateNote", "Sucess")
             }catch(e: Exception){
                 Log.e("CreateNote", "Error")
